@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASA Complaint Generator</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <script type='text/javascript' src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+  <script type='text/javascript' src="jQuery_Handlebars.js"></script>
+  <script type="text/javascript">
+   $(function() {
+	$.getJSON("ASACodes.json", function(ASACodes) {
+	 $("#asa").render('form', ASACodes);
+	});
+    $("#asa").on('change', '[type="radio"]', function () {
+	 $('div.' + $(this).data("class")).hide();
+	 $('#' + $(this).val()).show();
+    });
+    $("#asa").on('change', '[type="checkbox"]', function () {
+	 if(this.checked)
+	  $('div#' + $(this).val()).show();
+     else
+	  $('div#' + $(this).val()).hide();
+    });
+   });
+  </script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+ <body>
+  <form id="asa">
+  </form>
+ </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASA Complaint Generator</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+  <script type='text/javascript' src='http://code.jquery.com/jquery-2.0.3.js'></script>
+  <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+  <script type='text/javascript' src="jQuery_Handlebars.js"></script>
+  <script type='text/javascript' src='ASACodes.js'></script>
+  <script type='text/javascript' src='form.handlebars.js'></script>
+  <script type="text/javascript">
+   //$('body').render('form', ASACodes);
+   function saveForm() {
+    $("input:radio").each(function() {
+	 localStorage[$(this).attr('id')] = $(this).prop('checked');
+	});
+    $("input:checkbox").each(function() {
+	 localStorage[$(this).attr('id')] = $(this).prop('checked');
+	});
+    $("input:text").each(function() {
+	 localStorage[$(this).attr('id')] = $(this).val();
+	});
+    $("textarea").each(function() {
+	 localStorage[$(this).attr('id')] = $(this).val();
+	});
+   }
+   function loadForm() {
+    for(var key in localStorage) {
+     //$('#' + key).append(localStorage.getItem(key));
+    }
+   }
+   $(function() {
+    var template = Handlebars.compile(hbs);
+    $("#asa").append(template(ASACodes));
+    $("input:radio").change(function() {
+	 $('div.' + $(this).data("class")).hide();
+	 $('#' + $(this).val()).show();
+    });
+    $("input:checkbox").change(function() {
+	 if(this.checked)
+	  $('div#' + $(this).val()).show();
+     else
+	  $('div#' + $(this).val()).hide();
+    });
+   });
+  </script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+ <body>
+  <form id="asa">
+  </form>
+ </body>
+</html>

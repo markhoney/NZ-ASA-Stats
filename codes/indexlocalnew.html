@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASA Complaint Generator</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  <script type='text/javascript' src='http://code.jquery.com/jquery-2.0.3.js'></script>
+  <script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script type='text/javascript' src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+  <script type='text/javascript' src="jQuery_Handlebars.js"></script>
+  <script type='text/javascript' src='ASACodesNew.js'></script>
+  <script type='text/javascript' src='formnew.handlebars.js'></script>
+  <script type="text/javascript">
+   //$('body').render('form', ASACodes);
+   function saveForm() {
+    $("input:radio").each(function() {
+     localStorage[$(this).attr('id')] = $(this).prop('checked');
+    });
+    $("input:checkbox").each(function() {
+     localStorage[$(this).attr('id')] = $(this).prop('checked');
+    });
+    $("input:text").each(function() {
+     localStorage[$(this).attr('id')] = $(this).val();
+    });
+    $("textarea").each(function() {
+     localStorage[$(this).attr('id')] = $(this).val();
+    });
+   }
+   function loadForm() {
+    for(var key in localStorage) {
+     //$('#' + key).append(localStorage.getItem(key));
+    }
+   }
+
+   function inputLoop(Sections, parentID, parentName) {
+    $.each(Sections.Section, function() {
+	 var Section = this;
+     sectionID = parentID + Section.Class;
+     sectionName = parentName + Section.Prefix;
+     $.each(Section.Clauses, function() {
+	  Clause = this;
+	  var id = sectionID + Clause.Clause;
+      var name = sectionName + Clause.Clause + Section.Suffix;
+      //$("#" + sectionID).append('<input type="checkbox" name="' + codeClass + '[]" value="' + sectionName + '" title="' + sectionName + '" />' + Clause.Infringement + ' <span>+</span><div>' + Clause.Code + '</div><br />');
+      $("#" + sectionID).append('<input type="checkbox" id="' + id + '-checkbox" name="' + sectionID + '[]" value="' + id + '" title="' + name + '" /><label for="' + id + '-checkbox">' + Clause.Infringement + '</label> <span title="' + Clause.Code + '">?</span><br />');
+      if (typeof(Clause.Sections) != "undefined")
+      {
+	   //'<div class="sub">'
+       inputLoop(Clause.Sections, id, name);
+      }
+     });
+    });
+   }
+   // jQuery(Code.Class).text()
+   $(function() {
+    var claimsbox = '<div id="claims"><input type="text" placeholder="URL" /><input type="textarea" placeholder="Claims" />';
+    $("#asa").replaceWith('<form id="asa"><div id="code"><fieldset><legend>Complaint Type</legend></fieldset></div></form>');
+    $.each(ASACodes.Codes, function() {
+     var Code = this;
+     var id = Code.Class;
+     var Name = Code.Class;
+     //$("#code").append('<input class="radio" type="radio" name="code" value="' + id + '" title="' + Code.Hint + '">' + Code.Name + '</input><br />');
+     //$("#code").append('<input type="radio" id="' + id + '-radio" name="code[]" data-class="code" value="' + id + '" title="' + Code.Hint + '" /><label for="' + id + '-radio">' + Code.Name + '</label><br />');
+	 $("#code").append('<input type="checkbox" id="' + id + '-checkbox" name="code[]" data-class="code" value="' + id + '" title="' + Code.Hint + '" /><label for="' + id + '-radio">' + Code.Name + '</label><br />');
+	 //$("#asa").append('<div id="' + id + '"><h2><a href="' + Code.URL + '" target="_blank">' + Code.Name + '</a></h2><fieldset class="accordion" id="' + id + 'p" class="hidden"><legend>Principles</legend><h3>Please select if the advert:</h3></fieldset></div>');
+     $("#asa").append('<div id="' + id + '" class="code hidden"></div>');
+     inputLoop(Code.Sections, id, Name + Code.Prefix);
+     if (typeof(Code.Options) != "undefined")
+     {
+      $("#" + id).append('<fieldset id="' + id + 'r' + '"><legend>Section</legend></fieldset>');
+      $.each(Code.Options, function() {
+       //$("#" + id).append('<input class="radio" type="radio" name="' + id + 'r' + '" title="Part ' + sectionCode + '">' + Section.Title + '</input><br />');
+       id += this.Class;
+	   //$("#" + id).append('<fieldset class="accordion" id="' + codeKey + sectionCode + 'r' + '"><legend>Requirements</legend></fieldset>');
+       inputLoop(this.Sections, id, Name + this.Prefix);
+      });
+     }
+    });
+    //var template = Handlebars.compile(hbs);
+    //$("#asa").append(template(ASACodes));
+    $("input:radio").change(function() {
+     $('div.' + $(this).data("class")).hide();
+     $('#' + $(this).val()).show();
+    });
+    $("input:checkbox").change(function() {
+     if(this.checked)
+      $('div#' + $(this).val()).show();
+     else
+      $('div#' + $(this).val()).hide();
+    });
+   });
+  </script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+ <body>
+  <form id="asa">
+  </form>
+ </body>
+</html>

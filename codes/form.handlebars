@@ -1,0 +1,59 @@
+ <div id="code">
+  <fieldset id="codes">
+   <legend>Complaint Type</legend>
+   {{#Codes}}
+   <input type="radio" id="{{Class}}-radio" name="code[]" data-class="code" value="{{Class}}" title="{{Hint}}" /><label for="{{Class}}-radio" class="collapsed" data-toggle="collapse" data-parent="#code" href="#{{Class}}-text">{{{Name}}}</label><br />
+   <div class="collapse accordion-toggle" id="{{Class}}-text">{{Introduction}}</div>
+   {{/Codes}}
+  </fieldset>
+ </div>
+ {{#Codes}}
+ <div id="{{Class}}" class="code" style="display: none;">
+ {{#if Parts}}
+ <fieldset id="{{Class}}-parts">
+  <legend>Part</legend>
+  {{#Parts}}
+  <input type="radio" id="{{../Class}}-{{Part}}-radio" data-class="{{../Class}}-parts" name="{{../Class}}[]" value="{{../Class}}-{{Part}}" title="{{../Name}} Part {{Part}}" /><label for="{{../Class}}-{{Part}}-radio">{{Part}}: {{{Name}}}</label><br />
+  {{/Parts}}
+ </fieldset>
+ {{/if}}
+ {{#if Principles}}
+ <fieldset id="{{Class}}-p">
+  <legend>Principles</legend>
+  {{#Principles}}
+  <p class="collapsed" data-toggle="collapse" data-parent="#code" href="#{{../Class}}-p-{{Clause}}">{{../Name}}: Principle {{Clause}} - {{{Infringement}}}</p>
+  <div class="collapse" id="{{../Class}}-p-{{Clause}}">{{{Code}}}</div>
+   {{#if Guidelines}}
+   <div class="sub" id="{{../../Class}}-p-{{Clause}}">
+   {{#Guidelines}}
+   <p data-toggle="collapse" data-parent="#code" href="#{{../../../Class}}-p-{{../Clause}}-{{{Clause}}}">{{../../../Name}}: Principle {{../Clause}}, Guideline ({{Clause}}) - {{{Infringement}}}</p>
+   <div class="collapse" id="{{../../../Class}}-p-{{../Clause}}-{{{Clause}}}">{{{Code}}}</div>
+   {{/Guidelines}}
+  </div>
+  {{/if}}
+  {{/Principles}}
+ </fieldset>
+ {{/if}}
+ {{#Parts}}
+ {{#if Requirements}} 
+ <div id="{{../../Class}}-{{../Part}}" class="{{../../Class}}-parts" style="display: none;">
+ <fieldset>
+  <legend>Requirements</legend>
+  {{#Requirements}}
+  <p class="collapsed" data-toggle="collapse" data-parent="#code" href="#{{../../../Class}}-{{../Part}}-{{{Clause}}}">{{../../../Name}}: Part {{../Part}}, Requirement {{Clause}} - {{{Infringement}}}</p>
+  <div class="collapse" id="{{../../../Class}}-{{../Part}}-{{{Clause}}}">{{{Code}}}</div>
+   {{#if Guidelines}}
+   <div class="sub" id="{{../../../Class}}-{{../../Part}}-{{../Clause}}">
+   {{#Guidelines}}
+   <p class="collapsed" data-toggle="collapse" data-parent="#code" href="#{{../../../../../Class}}-{{../../../Part}}-{{../Clause}}-{{{Clause}}}">{{../../../../../Name}}: Part {{../../../Part}}, Requirement {{../Clause}}.{{Clause}} - {{{Infringement}}}</p>
+   <div class="collapse" id="{{../../../../../Class}}-{{../../../Part}}-{{../Clause}}-{{{Clause}}}">{{{Code}}}</div>
+  {{/Guidelines}}
+  </div>
+  {{/if}}
+  {{/Requirements}}
+  </fieldset>
+  </div>
+ {{/if}}
+ {{/Parts}}
+ </div>
+ {{/Codes}}

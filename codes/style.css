@@ -1,0 +1,22 @@
+.claim, .hidden
+{
+ display: none;
+}
+.radio
+{
+ /*display: block;*/
+ clear: right;
+}
+.accordion div
+{
+ margin-left: 50px;
+}
+.sub
+{
+ margin-left: 25px;
+}
+
+label
+{
+ min-width: 80px;
+}

@@ -1,0 +1,15 @@
+ body {background-color: #EAEAEA; padding: 30px 0;}
+ @media (min-width: 1200px) {.container {width: 1268px;}}
+ #content {background-color: #FFFFFF; box-shadow: rgba(100, 100, 100, 0.298039) 0px 2px 6px 0px;}
+ .success {color: #009900;}
+ .failure {color: #990000;}
+ .badges img {width: 96px; height: 96x;}
+ #badgelist img {width: 96px; height: 96x;}
+ pre {white-space: pre-wrap; word-break: normal; text-align: justify; padding: 20px;}
+ #disclaimer {max-width: 800px; margin: 0 auto; font-size: 10px; text-align: center;}
+ #Frame1, #Frame2, #Frame3, #Frame4, #Frame5, .sd-abs-pos {display: none;}
+ #title {margin-left: 10px; margin-top: 6px;}
+ #title h1 {font-family: 'Lato', sans-serif; font-size: 48px; background: url(http://sbh.nz/wp-content/uploads/header.png) no-repeat; min-height: 65px; padding-left: 35px;}
+ #title h2 {font-family: 'Lato', sans-serif; margin-top: -20px; margin-left: 35px;}   
+ #title h1 a, #title h2 a {color: #000000;}
+ #title h1 a:hover, #title h2 a:hover {text-decoration: none; color: #0072BF;}
