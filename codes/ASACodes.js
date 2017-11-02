@@ -1,4 +1,4 @@
-var ASACodes = {"Codes": [{
+var ASACodes = {"Codes": [{ // Need to add new codes
 "Class": "tp",
 "Title": "Therapeutic Products",
 "Hint": "e.g. a Medicine or Medical Device",
